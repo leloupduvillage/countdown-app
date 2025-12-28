@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Reunion Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6d9 25%, #ff99d8 50%, #e6a8d8 75%, #d4a5e0 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(255, 105, 180, 0.3);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: normal;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            color: #c1499f;
+            font-size: 14px;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+
+        .countdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .countdown-item {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe8f1 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border: 2px solid #ffb6d9;
+        }
+
+        .countdown-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #d63384;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .countdown-label {
+            font-size: 12px;
+            color: #c1499f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-section {
+            margin-bottom: 30px;
+        }
+
+        .progress-label {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #ffb6d9;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #d63384);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            font-size: 12px;
+            color: #999;
+            margin-top: 8px;
+        }
+
+        .quote-section {
+            background: linear-gradient(135deg, #fff5f9 0%, #ffe8f1 100%);
+            padding: 20px;
+            border-radius: 15px;
+            border-left: 4px solid #d63384;
+            margin-bottom: 20px;
+        }
+
+        .quote {
+            font-size: 14px;
+            color: #d63384;
+            font-style: italic;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .quote-author {
+            font-size: 12px;
+            color: #c1499f;
+            font-weight: bold;
+        }
+
+        .refresh-hint {
+            font-size: 12px;
+            color: #999;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .countdown-number {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>♡ Our Reunion ♡</h1>
+        <p class="subtitle">March 10, 2026 • 5:05 PM</p>
+
+        <div class="countdown">
+            <div class="countdown-item">
+                <div class="countdown-number" id="months">0</div>
+                <div class="countdown-label">Months</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="days">0</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="hours">0</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-item">
+                <div class="countdown-number" id="minutes">0</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-label">Progress to our moment</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">0% complete</div>
+        </div>
+
+        <div class="quote-section" id="quoteSection">
+            <div class="quote" id="quote"></div>
+            <div class="quote-author" id="quoteAuthor"></div>
+        </div>
+
+        <p class="refresh-hint">Refreshes every minute ↻</p>
+    </div>
+
+    <script>
+        const quotes = [
+            {
+                text: "Love is the bridge between you and everything.",
+                author: "Louise Hay"
+            },
+            {
+                text: "The greatest love stories happen when hearts recognize each other.",
+                author: "Louise Hay"
+            },
+            {
+                text: "Relationships thrive when both people choose love every single day.",
+                author: "Gay Hendricks"
+            },
+            {
+                text: "Every moment you spend together is a moment you're investing in forever.",
+                author: "Gay Hendricks"
+            },
+            {
+                text: "Distance means nothing when someone means everything.",
+                author: "Louise Hay"
+            },
+            {
+                text: "Love grows stronger when tested by patience and time.",
+                author: "Gay Hendricks"
+            },
+            {
+                text: "You are worthy of the love you're waiting for.",
+                author: "Louise Hay"
+            },
+            {
+                text: "Two hearts connected across distance are still beating as one.",
+                author: "Gay Hendricks"
+            },
+            {
+                text: "Every day apart is a day closer to forever together.",
+                author: "Louise Hay"
+            },
+            {
+                text: "The quality of your relationships is determined by the quality of your love.",
+                author: "Gay Hendricks"
+            }
+        ];
+
+        function updateCountdown() {
+            const targetDate = new Date(2026, 2, 10, 17, 5, 0).getTime();
+            const now = new Date().getTime();
+            const difference = targetDate - now;
+
+            if (difference < 0) {
+                document.getElementById('months').textContent = '∞';
+                document.getElementById('days').textContent = '∞';
+                document.getElementById('hours').textContent = '∞';
+                document.getElementById('minutes').textContent = '∞';
+                document.getElementById('progressFill').style.width = '100%';
+                document.getElementById('progressText').textContent = 'You\'re together! ♡';
+                return;
+            }
+
+            const startDate = new Date(2025, 11, 28, 0, 0, 0).getTime();
+            const endDate = new Date(2026, 2, 10, 17, 5, 0).getTime();
+            const totalMilliseconds = endDate - startDate;
+            const elapsed = now - startDate;
+            const progressPercent = Math.min((elapsed / totalMilliseconds) * 100, 100);
+
+            const months = Math.floor(difference / (1000 * 60 * 60 * 24 * 30.44));
+            const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById('months').textContent = months;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+
+            document.getElementById('progressFill').style.width = progressPercent + '%';
+            document.getElementById('progressText').textContent = Math.round(progressPercent) + '% complete';
+        }
+
+        function displayRandomQuote() {
+            const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+            document.getElementById('quote').textContent = '"' + randomQuote.text + '"';
+            document.getElementById('quoteAuthor').textContent = '— ' + randomQuote.author;
+        }
+
+        // Initial update
+        updateCountdown();
+        displayRandomQuote();
+
+        // Update every minute
+        setInterval(updateCountdown, 60000);
+        
+        // Change quote every 30 seconds
+        setInterval(displayRandomQuote, 30000);
+    </script>
+</body>
+</html>
