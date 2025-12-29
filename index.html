@@ -13,13 +13,27 @@
 
         body {
             font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #ffd1dc 0%, #ffb6d9 25%, #ff99d8 50%, #e6a8d8 75%, #d4a5e0 100%);
+            background-image: url('https://raw.githubusercontent.com/leloupduvillage/countdown-app/main/DSCN2067.JPG');
+            background-size: cover;
             background-attachment: fixed;
+            background-position: center;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.25);
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -197,7 +211,7 @@
 
     <script>
         const quotes = [
-           // Louise Hay
+            // Louise Hay
             {
                 text: "Love is the bridge between you and everything.",
                 author: "Louise Hay"
