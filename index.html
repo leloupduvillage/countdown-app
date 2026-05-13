@@ -172,7 +172,7 @@
 <body>
     <div class="container">
         <h1>♡ Our Reunion ♡</h1>
-        <p class="subtitle">March 10, 2026 • 5:05 PM</p>
+        <p class="subtitle">August 30, 2026</p>
 
         <div class="countdown">
             <div class="countdown-item">
@@ -456,7 +456,7 @@
         ];
 
         function updateCountdown() {
-            const targetDate = new Date(2026, 2, 10, 17, 5, 0).getTime();
+            const targetDate = new Date(2026, 7, 30, 0, 0, 0).getTime();
             const now = new Date().getTime();
             const difference = targetDate - now;
 
@@ -470,14 +470,25 @@
                 return;
             }
 
-            const startDate = new Date(2025, 11, 28, 0, 0, 0).getTime();
-            const endDate = new Date(2026, 2, 10, 17, 5, 0).getTime();
+            const startDate = new Date(2025, 11, 28, 0, 0, 0);
+            const endDate = new Date(2026, 7, 30, 0, 0, 0);
             const totalMilliseconds = endDate - startDate;
             const elapsed = now - startDate;
             const progressPercent = Math.min((elapsed / totalMilliseconds) * 100, 100);
 
-            const months = Math.floor(difference / (1000 * 60 * 60 * 24 * 30.44));
-            const days = Math.floor((difference % (1000 * 60 * 60 * 24 * 30.44)) / (1000 * 60 * 60 * 24));
+            // Calculate months by checking actual month boundaries
+            let tempDate = new Date(now);
+            let months = 0;
+            while (new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, tempDate.getDate()) <= endDate) {
+                months++;
+                tempDate.setMonth(tempDate.getMonth() + 1);
+            }
+
+            // Calculate remaining days
+            const nextMonth = new Date(tempDate.getFullYear(), tempDate.getMonth() + 1, tempDate.getDate());
+            const daysUntilNextMonth = Math.floor((endDate - tempDate) / (1000 * 60 * 60 * 24));
+            const days = daysUntilNextMonth;
+
             const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
 
